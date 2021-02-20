@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      li input {
+        display: none;
+      }
+
+      li.edit span {
+        display: none;
+      }
+
+      li.edit input {
+        display: initial;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Javascript Events</h1>
+    </header>
+    <main>
+      <ul id="checklist">
+        <li>
+          <span>apples</span>
+          <input type="text" value="apples" />
+        </li>
+        <li>
+          <span>oranges</span>
+          <input type="text" value="oranges" />
+        </li>
+        <li>
+          <span>bananas</span>
+          <input type="text" value="bananas" />
+        </li>
+      </ul>
+    </main>
+    <script>
+      var checklist = document.getElementById("checklist");
+      var items = checklist.querySelectorAll("li");
+      var inputs = checklist.querySelectorAll("input");
+
+      for (var i = 0; i < items.length; i++) {
+        items[i].addEventListener("click", edititem);
+        inputs[i].addEventListener("blur", updateitem);
+        inputs[i].addEventListener("keypress", itemkeypress);
+      }
+
+      function edititem() {
+        this.className = "edit";
+        var myinput = this.querySelector("input");
+        myinput.focus();
+        myinput.setSelectionRange(0, myinput.value.length);
+      }
+
+      function updateitem() {
+        this.previousElementSibling.innerHTML = this.value;
+        this.parentNode.className = "";
+      }
+
+      function itemkeypress(event) {
+        if (event.which === 13) {
+          updateitem.call(this);
+        }
+      }
+    </script>
+  </body>
+</html>
